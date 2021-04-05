@@ -135,7 +135,7 @@ def return_best_model(input_model, params, xtrain, ytrain, resampling_method = [
     kf = KFold(n_splits=5, shuffle=False)
 
     model_pipeline = make_pipeline(StandardScaler(), *resampling_method, input_model)
-    grid_pipeline = GridSearchCV(model_pipeline, param_grid=params, cv=kf, scoring='recall', verbose=2)
+    grid_pipeline = GridSearchCV(model_pipeline, param_grid=params, cv=kf, scoring='recall', verbose=0)
     grid_pipeline.fit(xtrain, ytrain)
     print(grid_pipeline.best_params_)
 
