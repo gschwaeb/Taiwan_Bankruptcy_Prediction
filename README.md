@@ -49,7 +49,7 @@ From the cross validation results, it appears Logistic Regression generally perf
 ## Evaluate Best Models to Test Data 
 
 The best performing model, optimizing for recall, was logistic regression fit using Tomek Links resampling with paramters C = 0.01, class_weight = 'balanced', penalty = 'l1', solver = 'liblinear'. We believe that given similar market conditions to the years covered in our dataset and access to similar data, we could deploy this model to unseen data and continue to predict roughly 87% of companies that go bankrupt out of the companies that actually did go bankrupt.
-![final](images/tpbresults.png)
+![final](images/tbpresults.png)
 
 ### Next Steps
 In order to improve our modelling the below further steps can be taken
