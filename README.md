@@ -13,25 +13,43 @@ We brought in 75 of the original 95 columns we deemed potentially significant. A
 
 There is a class imbalance in the data where approximately 97% of the companies did not go bankrupt and 3% did. To handle this imbalance in our modelling, we tested each model using SMOTE and/or Tomek Links.
 
-## Exploratory Data Analysis & Feature Engineering
+## Exploratory Data Analysis
 
 We found that ROA(A), Debt Ratio %, Net Income to Total Assets, Current Liability to Assets, Working Capital to Total Assets, and Long Term Liability to Current Assets were the ratios that had the strongest correlations and had the highest predictive value for determining bankrupty.
 
 ROA(A) is Net income before interest and % after tax/Total Assets. ROA(A) is an indicator of how profitable a company is relative to its total assets. We can clearly see differences in the distributions for bankrupt companies who have lower and more left skewed ROA(A) relative to not bankrupt companies.
+![ROA](images/ROA.png)
+
+Debt Ratio % is Liability/Total Assets and measures the extent of a company’s leverage. Bankrupt companies tend to have higher and more right skewed debt ratios showing that they are typically more leveraged. 
+![dr](images/debtratio.png)
+
+Quick Ratio (aka Acid Test) is an indicator of a company’s short-term liquidity position and measures a company’s ability to meet its short-term obligations with its most liquid assets. We found that 75% of companies that went bankrupt had a Quick Ratio less than .5% while only 25% of companies that didn't go bankrupt had quick ratio that low. 
+![qr](images/quickratio.png)
+
+Current Liability to Assets is comparable to Debt Ratio % but measures shorter tem liabilities compared to all liabilities. The distribution in the distplot below again shows that bankrupt companies will typically have higher Current Liability to Assets relative to companies that didn't go bankrupt.
+![cla](images/cla.png)
+
+Working Capital to Total Assets compares liquid assets to total assets. We can see from the distributions that bankrupt companies have smaller ratios of liquid assets to total assets. This may indicate that in time of financial distress, these companies would have more difficult time offloading assets to satisfy their liabilities and avoid bankruptcy.
+![wcta](images/wcta.png)
+
 
 ## Building Tuning and Testing Models
 
-We tested our hypothesis on the following models: logistic regression, K nearest neighbors, decision trees, random forest, bagging and gradient boosting to determine which algorithm performs best.
+We tested our hypothesis on the following models: logistic regression, K nearest neighbors, decision trees, random forest, and gradient boosting to determine which algorithm performs best.
 
 To handle the class imbalance we will test various models using SMOTE, Tomek Links, SMOTE and Tomek Links together, as well as no resampling. 
+
+We utilized Scikit-learn pipelines so that the proper scaling and resampling of the data would occur in the cross validation phase. We used the Grid Search to iterate through different combinations of hyperparamters to determine which mix worked best with each algorithm.
 
 ## Model Cross Validation Training Scores
 
 From the cross validation results, it appears Logistic Regression generally performs best, followed by decision trees, then K nearest neighbors. The different resampling methods also seem to have affected each of the models differently.
+![cv](images/tpbcvresults.png)
 
 ## Evaluate Best Models to Test Data 
 
 The best performing model, optimizing for recall, was logistic regression fit using Tomek Links resampling with paramters C = 0.01, class_weight = 'balanced', penalty = 'l1', solver = 'liblinear'. We believe that given similar market conditions to the years covered in our dataset and access to similar data, we could deploy this model to unseen data and continue to predict roughly 87% of companies that go bankrupt out of the companies that actually did go bankrupt.
+![final](images/tpbresults.png)
 
 ### Next Steps
 In order to improve our modelling the below further steps can be taken
@@ -48,6 +66,7 @@ In order to improve our modelling the below further steps can be taken
 │   ├── modeling_functions.py
 ├── .gitignore
 ├── Readme.md
+├── images
 ├── data
 ├── Taiwan_Bankruptcy_Prediction_Final.ipynb
 └── final_results.pickle
